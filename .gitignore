@@ -1,0 +1,23 @@
+# Entorno virtual
+fastapienv/
+venv/
+.env/
+
+# Cachés de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDEs
+.idea/
+.vscode/
+
+# Bases de datos locales
+*.db
+
+# Stack dumps
+*.stackdump
+
+# Logs
+*.log
