@@ -2,10 +2,9 @@ from typing import Annotated
 from pydantic import BaseModel ,Field
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException, Path
-from sqlalchemy.sql.functions import user
 from starlette import status
-from models import Todos
-from database import SessionLocal
+from ..models import Todos
+from ..database import get_db
 from .auth import get_current_user
 
 
@@ -14,12 +13,6 @@ prefix='/auth',
     tags=['admin']
 )
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
