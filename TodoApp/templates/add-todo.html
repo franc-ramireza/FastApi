@@ -1,0 +1,83 @@
+{% include 'layout.html' %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            Make a new todo
+        </div>
+
+        <div class="card-body">
+            <form id="todoForm" onsubmit="return false;">
+                <div class="form-group mb-3">
+                    <label>Title</label>
+                    <input type="text"
+                           class="form-control"
+                           name="title"
+                           required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Description</label>
+                    <textarea class="form-control"
+                              name="description"
+                              rows="3"
+                              required></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Priority</label>
+                    <select class="form-control" name="priority">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+
+                <!-- BOTÓN CONTROLADO POR JS -->
+                <button type="button"
+                        class="btn btn-primary"
+                        onclick="submitTodo()">
+                    Add new todo
+                </button>
+
+                <a href="/todos/todo-page"
+                   class="btn btn-secondary ms-2">
+                    Back
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+async function submitTodo() {
+    const form = document.getElementById("todoForm");
+
+    const formData = new FormData(form);
+
+    const data = {
+        title: formData.get("title"),
+        description: formData.get("description"),
+        priority: Number(formData.get("priority")),
+        complete: false
+    };
+
+    const response = await fetch("/todos/todo/web", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        window.location.href = "/todos/todo-page";
+    } else {
+        const text = await response.text();
+        alert(`Error creating todo: ${text}`);
+    }
+}
+</script>

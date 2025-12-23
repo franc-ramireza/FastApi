@@ -1,9 +1,17 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:Test1234.@127.0.0.1:3306/TodoaplicationDatabase"
+SQLALCHEMY_DATABASE_URL = (
+    "postgresql+psycopg://postgres:Test9561@localhost:5432/TodoAplicationDatabase"
+)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    pool_pre_ping=True
+)
+
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
